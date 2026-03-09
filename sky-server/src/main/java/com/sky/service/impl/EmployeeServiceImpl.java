@@ -1,16 +1,20 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -80,5 +85,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
+    }
+
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO pageQueryDTO) {
+        //底层使用了ThreadLocal，自动管理线程变量，传入到了线程自动在sql中添加limit和offset，故不需要获得当前页码和当前页大小
+        PageHelper.startPage(pageQueryDTO.getPage(), pageQueryDTO.getPageSize());
+        Page<Employee> page = employeeMapper.pageQuery(pageQueryDTO);
+        long total = page.getTotal();
+        List<Employee> records = page.getResult();
+        return new PageResult(total, records);
     }
 }
