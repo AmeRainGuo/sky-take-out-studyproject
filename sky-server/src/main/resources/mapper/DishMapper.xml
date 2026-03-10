@@ -9,6 +9,36 @@
     (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser}, #{status})
         <!-- 注意：MyBatis 会自动将实体类中的主键属性（如 id）设置为数据库中生成的主键值 -->
     </insert>
+    <update id="update">
+        update dish
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="image != null">
+                image = #{image},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
     <delete id="deleteByIds" parameterType="java.util.List">
         delete from dish where id in
         <foreach item="id" collection="ids" separator="," open="(" close=")">
