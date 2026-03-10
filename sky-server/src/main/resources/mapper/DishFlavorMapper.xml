@@ -11,4 +11,10 @@
             </foreach>
         <!-- 注意：MyBatis 会自动将实体类中的主键属性（如 id）设置为数据库中生成的主键值 -->
     </insert>
+    <delete id="deleteByDishIds" parameterType="java.util.List">
+        delete from dish_flavor where dish_id in
+        <foreach item="dishId" collection="dishIds" separator="," open="(" close=")">
+            #{dishId}
+        </foreach>
+    </delete>
 </mapper>
