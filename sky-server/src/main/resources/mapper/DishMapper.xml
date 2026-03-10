@@ -9,4 +9,23 @@
     (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser}, #{status})
         <!-- 注意：MyBatis 会自动将实体类中的主键属性（如 id）设置为数据库中生成的主键值 -->
     </insert>
+    <select id="pageQuery" resultType="com.sky.vo.DishVO">
+
+        select d.*, c.name as categoryName
+        from dish d
+        left join category c
+        on d.category_id = c.id
+        <where>
+            <if test="name != null and name != ''">
+                d.name like concat('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null">
+                and d.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and d.status = #{status}
+            </if>
+        </where>
+        order by d.create_time desc
+    </select>
 </mapper>
