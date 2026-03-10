@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.DishMapper">
+    <insert id="insert" parameterType="com.sky.entity.Dish" useGeneratedKeys="true" keyProperty="id">
+        insert into dish
+    (name, category_id, price, image, description, create_time, update_time, create_user, update_user, status)
+        values
+    (#{name}, #{categoryId}, #{price}, #{image}, #{description}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser}, #{status})
+        <!-- 注意：MyBatis 会自动将实体类中的主键属性（如 id）设置为数据库中生成的主键值 -->
+    </insert>
+</mapper>
