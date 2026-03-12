@@ -49,7 +49,7 @@ public class DishServiceImpl implements DishService {
         Long dishId = dish.getId();
         //向口味表插入数据（多条）
         List<DishFlavor> flavors = dishDTO.getFlavors();
-        if(flavors != null && flavors.size() > 0) {
+        if (flavors != null && flavors.size() > 0) {
             flavors.forEach(flavor -> flavor.setDishId(dishId));
             dishFlavorMapper.insertBatch(flavors);
         }
@@ -72,13 +72,13 @@ public class DishServiceImpl implements DishService {
         //判断当前菜品是否能够删除--非起售中--没有套餐关联
         ids.forEach(id -> {
             Dish dish = dishMapper.getById(id);
-            if(dish.getStatus() == StatusConstant.ENABLE) {
+            if (dish.getStatus() == StatusConstant.ENABLE) {
                 throw new DeletionNotAllowedException("起售中的菜品不能删除");
             }
         });
 
         List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
-        if(setmealIds != null && setmealIds.size() > 0) {
+        if (setmealIds != null && setmealIds.size() > 0) {
             //当前菜品有套餐关联
             throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         }
@@ -89,9 +89,9 @@ public class DishServiceImpl implements DishService {
     }
 
     /*
-    *
-    * 根据id查询菜品和对应的口味
-    * */
+     *
+     * 根据id查询菜品和对应的口味
+     * */
     @Override
     public DishVO getByIdWithFlavor(Long id) {
         Dish dish = dishMapper.getById(id);
@@ -118,11 +118,20 @@ public class DishServiceImpl implements DishService {
 
         //重新导入前端传入的口味数据
         List<DishFlavor> flavors = dishDTO.getFlavors();
-        if(flavors != null && flavors.size() > 0) {
+        if (flavors != null && flavors.size() > 0) {
             //补全口味数据中的dishId
             flavors.forEach(flavor -> flavor.setDishId(dishDTO.getId()));
         }
         //重新导入口味数据
         dishFlavorMapper.insertBatch(flavors);
+    }
+
+    @Override
+    public List<Dish> list(Long categoryId) {
+            Dish dish = Dish.builder()
+                    .categoryId(categoryId)
+                    .status(StatusConstant.ENABLE)
+                    .build();
+            return dishMapper.list(dish);
     }
 }
