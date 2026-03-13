@@ -37,14 +37,21 @@ logging:
 sky:
   jwt:
     # 设置jwt签名加密时使用的秘钥
-    admin-secret-key: itcast
+    admin-secret-key: itame
     # 设置jwt过期时间
     admin-ttl: 7200000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+
+    user-secret-key: itame
+    user-ttl: 7200000
+    user-token-name: authentication
 #阿里云OSS
-aliyun:
-  oss:
-    endpoint: ${sky.aliyun.oss.endpoint}
-    bucketName: ${sky.aliyun.oss.bucketName}
-    region: ${sky.aliyun.oss.region}
+  aliyun:
+    oss:
+      endpoint: ${sky.aliyun.oss.endpoint}
+      bucketName: ${sky.aliyun.oss.bucketName}
+      region: ${sky.aliyun.oss.region}
+  wechat:
+    appid:${sky.wechat.appid}
+    secret:${sky.wechat.secret}

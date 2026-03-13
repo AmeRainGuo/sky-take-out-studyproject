@@ -11,7 +11,10 @@ sky:
     port: 6379
     password: @12576439
     database: 0
-aliyun:
-  endpoint: oss-cn-beijing.aliyuncs.com
-  bucketName: java-ai17332489
-  region: cn-beijing
+  aliyun:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucketName: java-ai17332489
+    region: cn-beijing
+  wechat:
+    appid:wx1797dcf5ec569e4d
+    secret:1af20145f4d7ed021600606ae44dda17
