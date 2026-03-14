@@ -70,9 +70,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     /*
-    *
-    * 查询购物车
-    * */
+     *
+     * 查询购物车
+     * */
     @Override
     public List<ShoppingCart> showShoppingCart() {
         log.info("查询购物车");
@@ -83,5 +83,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 .build();
         List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
         return list;
+    }
+
+    @Override
+    public void clear() {
+        log.info("清空购物车");
+        //获取当前用户
+        Long userId = BaseContext.getCurrentId();
+        shoppingCartMapper.delete(userId);
     }
 }
