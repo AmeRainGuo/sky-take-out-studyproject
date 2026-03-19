@@ -73,7 +73,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         }
 
         //新增用户数
-        Integer newUsers = userMapper.countByMap(map);
+        Integer newUsers = userMapper.countUser(map);
 
         return BusinessDataVO.builder()
                 .turnover(turnover)
